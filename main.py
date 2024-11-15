@@ -6,21 +6,23 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from tqdm import tqdm
 
-# Function to load stopwords from a file
-def load_blacklist(file_path: str) -> set:
-    with open(file_path, "r", encoding="utf-8") as file:
-        stopwords = set(word.strip().lower() for word in file.readlines())
-    return stopwords
+# Function to load blacklist from a file
+def load_blacklist() -> set:
+    with open("blacklist.txt", "r", encoding="utf-8") as file:
+        blacklist = set(word.strip().lower() for word in file.readlines())
+    return blacklist
 
-word_counts: dict[str, int] = {}
-rootdir: Union[Path, str] = Path("./messages")
-url_regex = r"(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])"
-folders = [folder for folder in rootdir.iterdir() if folder.is_dir()]
+def extract_words(message: str, blacklist: set) -> list:
+    url_regex = r"(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])"
+    if re.search(url_regex, message):
+        return []
+    
+    words = re.split(r"\s+", message)
+    cleaned_words = [re.sub(r'[^a-zA-Z0-9]', '', word) for word in words]
+    return [word.lower() for word in cleaned_words if word and word.lower() not in blacklist]
 
-# Load stopwords from the external file
-stopwords = load_blacklist("blacklist.txt")
 
-for folder in tqdm(folders, desc="Processing Folders", unit="folder"):
+def process_folder(folder: Path, blacklist: set, word_counts: dict) -> None:
     json_file = folder / "messages.json"
     
     if json_file.exists():
@@ -30,32 +32,57 @@ for folder in tqdm(folders, desc="Processing Folders", unit="folder"):
                 
             for dict in data:
                 message = dict.get("Contents", "")
-                if re.search(url_regex, message):
-                    pass
-                else:
-                    words = re.split(r"\s+", message)
-                    cleaned_words = [re.sub(r'[^a-zA-Z0-9]', '', word) for word in words]
-                    
-                    for word in cleaned_words:
-                        if word and word.lower() not in stopwords:
-                            word = word.lower()
-                            if word not in word_counts:
-                                word_counts[word] = 0
-                            word_counts[word] += 1
+                words = extract_words(message, blacklist)
+
+                for word in words:
+                    if word not in word_counts:
+                        word_counts[word] = 0
+                    word_counts[word] += 1
 
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON in {json_file}: {e}")
     else:
         print(f"No messages.json found in {folder}")
 
-wordcloud = WordCloud(width=800, height=400).generate_from_frequencies(word_counts)
+def generate_word_cloud(word_counts: dict) -> None:
+    wordcloud = WordCloud(width=800, height=400).generate_from_frequencies(word_counts)
+    wordcloud.to_file("output.png")
+    print("Word cloud saved as 'output.png'")
 
-wordcloud.to_file("output.png")
-print("Word cloud saved as 'output.png'")
+    plt.figure(figsize=(10, 5))
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis('off')
+    plt.show()
 
-plt.figure(figsize=(10, 5))
-plt.imshow(wordcloud, interpolation='bilinear')
-plt.axis('off')
-plt.show()
+    print("Complete!")
 
-print("Complete!")
+def ask_use_blacklist() -> bool:
+    while True:
+        use_blacklist = input("Use blacklist? [y/n]: ").lower().strip()
+        
+        if use_blacklist == "y":
+            return True
+        elif use_blacklist == "n":
+            return False
+        else:
+            print("Invalid input. Please enter 'y' or 'n'.")
+
+def main():
+    use_blacklist = ask_use_blacklist()
+    word_counts: dict[str, int] = {}
+    rootdir: Union[Path, str] = Path("./messages")
+    folders = [folder for folder in rootdir.iterdir() if folder.is_dir()]
+
+    if use_blacklist:
+        blacklist = load_blacklist()
+    else:
+        blacklist = ()
+
+    for folder in tqdm(folders, desc="Processing Folders", unit="folder"):
+        process_folder(folder, blacklist, word_counts)
+
+    generate_word_cloud(word_counts)
+    print("Complete!")
+
+if __name__ == "__main__":
+    main()
