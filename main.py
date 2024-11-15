@@ -5,6 +5,7 @@ from typing import Union
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from tqdm import tqdm
+import os
 
 # Function to load blacklist from a file
 def load_blacklist() -> set:
@@ -70,7 +71,7 @@ def ask_use_blacklist() -> bool:
 def main():
     use_blacklist = ask_use_blacklist()
     word_counts: dict[str, int] = {}
-    rootdir: Union[Path, str] = Path("./messages")
+    rootdir: Union[Path, str] = Path(os.getcwd()) / "messages"
     folders = [folder for folder in rootdir.iterdir() if folder.is_dir()]
 
     if use_blacklist:
