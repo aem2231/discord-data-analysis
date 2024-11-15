@@ -1,0 +1,44 @@
+# Ignore the 'messages' directory
+messages/
+
+# Ignore the output image file
+output.png
+
+# Python virtual environment
+.venv/
+env/
+env.bak/
+*.env
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs
+nohup.out
+
+# PyCharm project files
+.idea/
+
+# VS Code workspace settings
+.vscode/
+
+# Stopwords file (if it contains sensitive data)
+stopwords.txt
+
+# Ignore .direnv directory
+.direnv/
