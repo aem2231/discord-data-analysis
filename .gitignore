@@ -42,3 +42,6 @@ stopwords.txt
 
 # Ignore .direnv directory
 .direnv/
+
+#Ignore test data dir
+test_data/

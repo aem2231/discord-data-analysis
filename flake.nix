@@ -19,10 +19,10 @@
               pip
               venvShellHook
               wordcloud
-              pathlb
               matplotlib
               typing
               tqdm
+              RandomWords
             ]);
         };
       });

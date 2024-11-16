@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from tqdm import tqdm
 import os
+from generate_test_data import generate
 
 # Function to load blacklist from a file
 def load_blacklist() -> set:
@@ -68,10 +69,22 @@ def ask_use_blacklist() -> bool:
         else:
             print("Invalid input. Please enter 'y' or 'n'.")
 
+def ask_use_test_data() -> str:
+    while True:
+        use_test = input("Use test data? [y/n] : ").lower().strip()
+        if use_test == "y":
+            generate()
+            return "test_data"
+        elif use_test == "n":
+            return "messages"
+        else:
+            print("Invalid input. Please enter 'y' or 'n'.")
+
 def main():
     use_blacklist = ask_use_blacklist()
+    data_folder = ask_use_test_data()
     word_counts: dict[str, int] = {}
-    rootdir: Union[Path, str] = Path(os.getcwd()) / "messages"
+    rootdir: Union[Path, str] = Path(os.getcwd()) / data_folder
     folders = [folder for folder in rootdir.iterdir() if folder.is_dir()]
 
     if use_blacklist:
