@@ -1,0 +1,6 @@
+wordcloud
+matplotlib
+typing
+tqdm
+RandomWords
+simple_term_menu

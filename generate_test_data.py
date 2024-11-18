@@ -8,7 +8,7 @@ import shutil
 import typing
 from datetime import datetime, timedelta
 
-def generate_data() -> None:
+def generate_messages() -> None:
     #initialize an instance of randomwords
     rw = RandomWords()
 
@@ -64,7 +64,7 @@ def create_dirs() -> None:
 
         with open(path, "w") as f:
             for i in range(0, random.randint(0, 10)):
-                data.append(generate_data())
+                data.append(generate_messages())
             json.dump(data, f)
 
 def generate() -> None:
