@@ -70,4 +70,3 @@ def create_dirs() -> None:
 def generate() -> None:
     create_dirs()
     print("Test data generated!")
-

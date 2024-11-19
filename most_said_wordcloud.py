@@ -62,6 +62,8 @@ def generate_word_cloud(word_counts: dict) -> None:
 def most_said_wordcloud(use_blacklist: bool, use_test_data: bool) -> None:
     if use_test_data:
         data_folder: str = "test_data"
+    else:
+        data_folder: str = "messages"
     if not use_blacklist:
         blacklist = set()
     

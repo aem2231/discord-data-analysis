@@ -1,9 +1,8 @@
 import os
 from pathlib import Path
 from generate_test_data import generate
-from simple_term_menu import TerminalMenu
+from simple_term_menu import TerminalMenu # NOTE: Change to different library to support windows
 from most_said_wordcloud import most_said_wordcloud
-import typing
 
 # basic menue to configure options
 def main():
