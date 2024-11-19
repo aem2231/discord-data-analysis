@@ -22,7 +22,6 @@
               matplotlib
               typing
               tqdm
-              RandomWords
             ]);
         };
       });
