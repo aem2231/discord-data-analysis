@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 wordcloud
 matplotlib
 typing
 tqdm
 RandomWords
+=======
+wordcloud
+matplotlib
+typing
+tqdm
+RandomWords
+simple_term_menu
+>>>>>>> 959f18741fca6f2d4abd9d2e9b3d2a2469f0b062
