@@ -29,6 +29,6 @@ Basic tools to gather (maybe useful?) insights from your discord data package
     pip install -r requirements.txt
     ```
 ## Usage
-1. Simply run `python main.py` in the directory that you cloned the repo too.
+1. Run `python main.py` in the directory that you cloned the repo too.
 
 
