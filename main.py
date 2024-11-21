@@ -4,7 +4,11 @@ from generate_test_data import generate
 from most_said_wordcloud import most_said_wordcloud
 from messages_by_year import messages_by_year
 from pymenu import select_menu
-        
+
+# Entry point for the program
+# Uses pymenu to create simple menus
+# Asks the user what they want to do, then calls relevent functions
+
 def test_data_menu(options: list[str]) -> bool:
     use_test_data: bool = False
     test_data_option = select_menu.create_select_menu(options, "Use test data?")

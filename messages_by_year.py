@@ -33,6 +33,10 @@ def process_data(folders: list[Path]) -> dict:
     return message_counts
 
 def plot_graph(message_counts):
+    output_dir: Path = Path.cwd() / "output"
+    output_dir.mkdir(parents=True, exist_ok=True) # Create output directory if it does not exist
+    file_path: Path = output_dir / "messages_by_year.png"
+    
     # Sort the dictionary by year (keys) as integers
     sorted_counts = dict(sorted(message_counts.items(), key=lambda x: int(x[0])))
 
@@ -47,6 +51,7 @@ def plot_graph(message_counts):
     plt.title('Messages Sent by Year')
     plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
     plt.tight_layout()       # Adjust layout to fit labels
+    plt.savefig(str(file_path))
     plt.show()
 
 def messages_by_year(use_test_data: bool = False):

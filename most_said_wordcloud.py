@@ -11,19 +11,19 @@ import time
 # Function to load blacklist from a file
 def load_blacklist() -> set:
     with open("blacklist.txt", "r", encoding="utf-8") as file:
-        blacklist = set(word.strip().lower() for word in file.readlines())
+        blacklist = set(word.strip().lower() for word in file.readlines()) # Load blacklist into an array
     return blacklist
 
 def extract_words(message: str, blacklist: set) -> list:
-    url_regex = r"(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])"
+    url_regex = r"(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])" # Filter out URL's
     if re.search(url_regex, message):
         return []
     
-    words = re.split(r"\s+", message)
-    cleaned_words = [re.sub(r'[^a-zA-Z0-9]', '', word) for word in words]
-    return [word.lower() for word in cleaned_words if word and word.lower() not in blacklist]
+    words = re.split(r"\s+", message) # Account for double spaces
+    cleaned_words = [re.sub(r'[^a-zA-Z0-9]', '', word) for word in words] # Remove all punctuation
+    return [word.lower() for word in cleaned_words if word and word.lower() not in blacklist] # Filter out words in the blacklist
 
-
+# Function that processes all the data gathered
 def process_folder(folder: Path, blacklist: set, word_counts: dict) -> None:
     json_file = folder / "messages.json"
     
@@ -34,12 +34,12 @@ def process_folder(folder: Path, blacklist: set, word_counts: dict) -> None:
                 
             for dict in data:
                 message = dict.get("Contents", "")
-                words = extract_words(message, blacklist)
+                words = extract_words(message, blacklist) # Call extract words to filter messages
 
                 for word in words:
                     if word not in word_counts:
-                        word_counts[word] = 0
-                    word_counts[word] += 1
+                        word_counts[word] = 0 # Add key for dictionary if it is not already in there
+                    word_counts[word] += 1 # Increment value of a word (key) whenever we come accorss it
 
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON in {json_file}: {e}")
@@ -47,12 +47,17 @@ def process_folder(folder: Path, blacklist: set, word_counts: dict) -> None:
         print(f"No messages.json found in {folder}")
 
 def generate_word_cloud(word_counts: dict, start_time: float) -> None:
+    output_dir: Path = Path.cwd() / "output"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    file_path: Path = output_dir / "wordcloud.png"
+    
+
     end_time: float = time.time()
     execution_time: float = (end_time - start_time)*10**3
     print(f"Complete!\nGenerated in {execution_time:.03f} ms!")
     
     wordcloud = WordCloud(width=800, height=400).generate_from_frequencies(word_counts)
-    wordcloud.to_file("output.png")
+    wordcloud.to_file(str(file_path))
     print("Word cloud saved as 'output.png'")
 
     plt.figure(figsize=(10, 5))
@@ -72,14 +77,16 @@ def most_said_wordcloud(use_blacklist: bool, use_test_data: bool) -> None:
     
     word_counts: dict[str, int] = {}
     rootdir: Union[Path, str] = Path(os.getcwd()) / data_folder
-    folders = [folder for folder in rootdir.iterdir() if folder.is_dir()]
+
+    # Create a list of sibdirs by iterating over subdirs in the messages directory
+    folders = [folder for folder in rootdir.iterdir() if folder.is_dir()] 
 
     if use_blacklist:
         blacklist = load_blacklist()
     else:
         blacklist = ()
 
-    for folder in tqdm(folders, desc="Processing Folders", unit="folder"):
+    for folder in tqdm(folders, desc="Processing Folders", unit="folder"): # Then iterate through the subdirs and pass their names as a parameter
         process_folder(folder, blacklist, word_counts)
 
-    generate_word_cloud(word_counts, start_time)
+    generate_word_cloud(word_counts, start_time) # Finally, create and display the wordcloud

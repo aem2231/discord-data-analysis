@@ -45,3 +45,9 @@ stopwords.txt
 
 #Ignore test data dir
 test_data/
+# Ignore everything inside the output directory
+output/*
+
+# But do not ignore the directory itself
+!output/
+
