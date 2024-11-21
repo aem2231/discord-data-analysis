@@ -3,4 +3,4 @@ matplotlib
 typing
 tqdm
 RandomWords
-simple_term_menu
+pymenu-console

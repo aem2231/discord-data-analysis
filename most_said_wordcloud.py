@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from tqdm import tqdm
 import os
-from generate_test_data import generate
+import time
 
 # Function to load blacklist from a file
 def load_blacklist() -> set:
@@ -46,7 +46,11 @@ def process_folder(folder: Path, blacklist: set, word_counts: dict) -> None:
     else:
         print(f"No messages.json found in {folder}")
 
-def generate_word_cloud(word_counts: dict) -> None:
+def generate_word_cloud(word_counts: dict, start_time: float) -> None:
+    end_time: float = time.time()
+    execution_time: float = (end_time - start_time)*10**3
+    print(f"Complete!\nGenerated in {execution_time:.03f} ms!")
+    
     wordcloud = WordCloud(width=800, height=400).generate_from_frequencies(word_counts)
     wordcloud.to_file("output.png")
     print("Word cloud saved as 'output.png'")
@@ -56,10 +60,9 @@ def generate_word_cloud(word_counts: dict) -> None:
     plt.axis('off')
     plt.show()
 
-    print("Complete!")
-
-
 def most_said_wordcloud(use_blacklist: bool, use_test_data: bool) -> None:
+    start_time = time.time()
+
     if use_test_data:
         data_folder: str = "test_data"
     else:
@@ -79,5 +82,4 @@ def most_said_wordcloud(use_blacklist: bool, use_test_data: bool) -> None:
     for folder in tqdm(folders, desc="Processing Folders", unit="folder"):
         process_folder(folder, blacklist, word_counts)
 
-    generate_word_cloud(word_counts)
-    print("Complete!")
+    generate_word_cloud(word_counts, start_time)
