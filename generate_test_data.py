@@ -33,7 +33,7 @@ def generate_messages() -> None:
     random_seconds: int = random.randint(0, total_seconds)
     timestamp: str = str((start + timedelta(seconds=random_seconds)).strftime("%Y-%m-%d %H:%M:%S"))
     #generates random string of words to be used as a message,
-    message: str = " ".join([rw.word() for i in range(0, 25)])
+    message: str = " ".join([rw.word() for i in range(15, 25)])
 
     data["ID"] = id
     data["Timestamp"] = timestamp
@@ -43,7 +43,7 @@ def generate_messages() -> None:
 
 def create_dirs() -> None:
     json_file: Path = "messages.json" 
-    sub_dirs: int = random.randint(0, 200)
+    sub_dirs: int = random.randint(25, 200)
     directory: Path = Path("test_data")
     data: list  = []
 
@@ -62,7 +62,7 @@ def create_dirs() -> None:
         Path.touch(path) #Creates a messages.json in the newly created directory
 
         with open(path, "w") as f:
-            for i in range(0, random.randint(0, 10)):
+            for i in range(0, random.randint(5, 20)):
                 data.append(generate_messages())
             json.dump(data, f)
 
