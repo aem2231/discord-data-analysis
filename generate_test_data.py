@@ -26,7 +26,6 @@ def generate_messages() -> None:
         "Contents": "", 
         "Attachments": ""}
 
-
     id: int = random.randint(min,max)
     #creates a random time stamp by picking a number in the range of seconds between start and end
     delta: timedelta = end - start
