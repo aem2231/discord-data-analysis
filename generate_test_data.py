@@ -1,5 +1,4 @@
 import random
-from random_words import RandomWords
 import json
 import os
 from pathlib import Path
@@ -7,18 +6,19 @@ from tqdm import tqdm
 import shutil
 import typing
 from datetime import datetime, timedelta
+from wonderwords import RandomWord
 
 def generate_messages() -> None:
     #initialize an instance of randomwords
-    rw = RandomWords()
+    rw = RandomWord()
 
     #min and max used to generate a message id
     min: int = 1000000000000000 
     max: int = 9999999999999999
 
     #Creates a start and end date
-    start: datetime = datetime.strptime("2000-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
-    end: datetime = datetime.strptime("2100-01-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+    start: datetime = datetime.strptime("2015-05-13 00:00:00", "%Y-%m-%d %H:%M:%S")
+    end: datetime = datetime.strptime("2025-05-13 00:00:00", "%Y-%m-%d %H:%M:%S")
 
     data: dict = {
         "ID": 0, 
@@ -34,7 +34,7 @@ def generate_messages() -> None:
     random_seconds: int = random.randint(0, total_seconds)
     timestamp: str = str((start + timedelta(seconds=random_seconds)).strftime("%Y-%m-%d %H:%M:%S"))
     #generates random string of words to be used as a message,
-    message: str = " ".join([rw.random_word() for i in range(0, 25)])
+    message: str = " ".join([rw.word() for i in range(0, 25)])
 
     data["ID"] = id
     data["Timestamp"] = timestamp

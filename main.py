@@ -19,9 +19,9 @@ def test_data_menu(options: list[str]) -> bool:
             if overwite_test_data_option == "Yes":
                 generate()
                 os.system('cls' if os.name == 'nt' else 'clear')
-            else:
-                generate()
-                os.system('cls' if os.name == 'nt' else 'clear')
+        elif not os.path.exists("test_data"):
+            generate()
+            os.system('cls' if os.name == 'nt' else 'clear')
     return use_test_data
 
 def blacklist_menu(options: list[str]) -> bool:
