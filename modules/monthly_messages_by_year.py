@@ -56,9 +56,9 @@ def plot_graph(message_counts):
     df = df[sorted(df.columns)]  # Sort the columns (years) in ascending order
 
     df.transpose().plot.bar()
-    plt.xlabel("Messages sent")
-    plt.ylabel("Months by Years")
-    plt.title("Messages Sent by Year and Month")
+    plt.xlabel("Months By Year")
+    plt.ylabel("Messages sent")
+    plt.title("Monthly Messages By Year")
     plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
     plt.tight_layout()       # Adjust layout to fit labels
     plt.savefig(str(file_path))
