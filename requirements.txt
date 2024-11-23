@@ -2,5 +2,5 @@ wordcloud
 matplotlib
 typing
 tqdm
-RandomWords
+wonderwords
 pymenu-console

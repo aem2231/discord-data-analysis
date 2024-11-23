@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
-from generate_test_data import generate
-from most_said_wordcloud import most_said_wordcloud
-from messages_by_year import messages_by_year
+from modules.generate_test_data import generate
+from modules.most_said_wordcloud import most_said_wordcloud
+from modules.messages_by_year import messages_by_year
 from pymenu import select_menu
 
 # Entry point for the program

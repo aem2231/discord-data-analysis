@@ -22,8 +22,6 @@
               matplotlib
               typing
               tqdm
-              wonderwords
-              pymenu-console
             ]);
         };
       });

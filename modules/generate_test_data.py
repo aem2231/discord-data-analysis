@@ -7,6 +7,7 @@ import shutil
 import typing
 from datetime import datetime, timedelta
 from wonderwords import RandomWord
+import time
 
 def generate_messages() -> None:
     #initialize an instance of randomwords
@@ -42,10 +43,13 @@ def generate_messages() -> None:
 
 
 def create_dirs() -> None:
+    root_dir: Path = Path(os.getcwd())
+    directory: Path = Path(root_dir / "test_data")
     json_file: Path = "messages.json" 
     sub_dirs: int = random.randint(25, 200)
-    directory: Path = Path("test_data")
     data: list  = []
+    print(directory)
+    time.sleep(1)
 
     #min and max used to generate a sub dir name
     min: int = 1000000000000000 
@@ -69,3 +73,5 @@ def create_dirs() -> None:
 def generate() -> None:
     create_dirs()
     print("Test data generated!")
+
+
