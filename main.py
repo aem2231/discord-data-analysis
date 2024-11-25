@@ -6,6 +6,7 @@ from modules.messages_by_year import messages_by_year
 from modules.messages_by_month import messages_by_month
 from modules.monthly_messages_by_year import monthly_messages_by_year
 from pymenu import select_menu
+import time
 
 # Entry point for the program
 # Uses pymenu to create simple menus
@@ -47,22 +48,29 @@ def main():
     tool_option: str = ""
 
     while tool_option != tool_options.index("Quit"):
-        tool_option = choose_tool(tool_options)
-        if tool_option == 0:
-            use_test_data = test_data_menu(options)
-            messages_by_year(use_test_data)
-        elif tool_option == 1:
-            use_test_data = test_data_menu(options)
-            messages_by_month(use_test_data)
-        elif tool_option == 2:
-            use_test_data = test_data_menu(options)
-            monthly_messages_by_year(use_test_data)
-        elif tool_option == 3:
-            use_test_data = test_data_menu(options)
-            use_blacklist = blacklist_menu(options)
-            most_said_wordcloud(use_blacklist, use_test_data)
-        elif tool_option == 4:
-            break
+        try: 
+            tool_option = choose_tool(tool_options)
+            if tool_option == 0:
+                use_test_data = test_data_menu(options)
+                messages_by_year(use_test_data)
+            elif tool_option == 1:
+                use_test_data = test_data_menu(options)
+                messages_by_month(use_test_data)
+            elif tool_option == 2:
+                use_test_data = test_data_menu(options)
+                monthly_messages_by_year(use_test_data)
+            elif tool_option == 3:
+                use_test_data = test_data_menu(options)
+                use_blacklist = blacklist_menu(options)
+                most_said_wordcloud(use_blacklist, use_test_data)
+            elif tool_option == 4:
+                break
+        except IndexError as e:
+            print(f"Choice out of range:\n{e}")
+            time.sleep(2)
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+
 
 
 
