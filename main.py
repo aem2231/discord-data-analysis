@@ -43,22 +43,26 @@ def main():
     use_test_data: bool = False
     use_blacklist: bool = False
     options: list[str] = ["Yes", "No"]
-    tool_options: list[str] = ["Messages by year", "Messages by month", "Monthly messages by year", "Most said wordcloud"]
+    tool_options: list[str] = ["Messages by year", "Messages by month", "Monthly messages by year", "Most said wordcloud", "Quit"]
+    tool_option: str = ""
 
-    tool_option = choose_tool(tool_options)
-    if tool_option == 0:
-        use_test_data = test_data_menu(options)
-        messages_by_year(use_test_data)
-    elif tool_option == 1:
-        use_test_data = test_data_menu(options)
-        messages_by_month(use_test_data)
-    elif tool_option == 2:
-        use_test_data = test_data_menu(options)
-        monthly_messages_by_year(use_test_data)
-    elif tool_option == 3:
-        use_test_data = test_data_menu(options)
-        use_blacklist = blacklist_menu(options)
-        most_said_wordcloud(use_blacklist, use_test_data)
+    while tool_option != tool_options.index("Quit"):
+        tool_option = choose_tool(tool_options)
+        if tool_option == 0:
+            use_test_data = test_data_menu(options)
+            messages_by_year(use_test_data)
+        elif tool_option == 1:
+            use_test_data = test_data_menu(options)
+            messages_by_month(use_test_data)
+        elif tool_option == 2:
+            use_test_data = test_data_menu(options)
+            monthly_messages_by_year(use_test_data)
+        elif tool_option == 3:
+            use_test_data = test_data_menu(options)
+            use_blacklist = blacklist_menu(options)
+            most_said_wordcloud(use_blacklist, use_test_data)
+        elif tool_option == 4:
+            break
 
 
 
