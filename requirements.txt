@@ -5,3 +5,4 @@ tqdm
 wonderwords
 pymenu-console
 pandas
+profanity_check

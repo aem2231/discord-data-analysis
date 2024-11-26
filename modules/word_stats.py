@@ -12,8 +12,11 @@ from better_profanity import profanity
 
 def count_messages() -> str:
     rootdir: Path = os.getcwd()
-    data_folder: str = "test_data"
-    folders: list = [folder for folder in rootdir.iterdir() if folder.is_dir()]
+    data_folder: Path = "test_data"
+    rootdir: Union[Path, str] = Path(os.getcwd()) / data_folder
+
+    # Create a list of sibdirs by iterating over subdirs in the messages directory
+    folders = [folder for folder in rootdir.iterdir() if folder.is_dir()]
     messages: list = []
 
 
@@ -75,7 +78,7 @@ def word_stats() -> None:
     word_counts = count_words(True)
     top5_words: dict[str: int] = dict(itertools.islice(word_counts.items(), 5))
     percententage_offensiveness: int = count_percentage_offensiveness(messages, message_count)
-    
+    print(percententage_offensiveness)
 
     
 
