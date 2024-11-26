@@ -6,3 +6,4 @@ wonderwords
 pymenu-console
 pandas
 profanity_check
+pyspellcheck

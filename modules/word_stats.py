@@ -63,6 +63,7 @@ def count_percentage_offensiveness(messages, message_count) -> int:
         censored_message: str = profanity.censor(message)
         if censored_message != message:
             offensive_message_count += 1
+            print(censored_message)
 
     return (offensive_message_count/message_count) 
 
